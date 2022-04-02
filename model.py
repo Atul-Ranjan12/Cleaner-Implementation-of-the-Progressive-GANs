@@ -177,15 +177,15 @@ class Discriminator(tf.keras.models.Sequential):
 
 
 ### Testing Sequences (For generator):
-noise = tf.random.normal([1, 1, 1, 128])
-gen_1 = Generator()
-out = gen_1(noise)
-print(out.shape)
-print(gen_1.resolution)
-for _ in range(8):
-    gen_1.grow()
-    out_1 = gen_1(noise)
-    print(out_1.shape)
+# noise = tf.random.normal([1, 1, 1, 128])
+# gen_1 = Generator()
+# out = gen_1(noise)
+# print(out.shape)
+# print(gen_1.resolution)
+# for _ in range(8):
+#     gen_1.grow()
+#     out_1 = gen_1(noise)
+#     print(out_1.shape)
 
 
 ### Testing Sequences for Discriminator

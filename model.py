@@ -125,12 +125,12 @@ class Discriminator(tf.keras.models.Sequential):
 
     def call(self, inputs, training=None, mask=None):
         if self.stage == 0:
-            print("Def was called inside the discriminator "
-                  f"The stage is: {self.stage}")
+            #print("Def was called inside the discriminator "
+            #      f"The stage is: {self.stage}")
             x = tf.nn.l2_normalize(inputs, axis=-1)
             for layer in self.disc_block:
                 x = layer(x)
-                print(x.shape)
+                # print(x.shape)
             return x
         else:
             ## Path A: downsample the image
@@ -148,13 +148,13 @@ class Discriminator(tf.keras.models.Sequential):
                 # print(f"Works {i}")
                 a = self.disc_block[i]
                 x = a(x)
-                print(x.shape)
+                # print(x.shape)
             return x
 
     #### ISSUE: grow function not copying weights from the previous layers
     def grow(self):
-        print("Grow was called inside the discriminator "
-              f"Discriminator now inputting images of resolution {self.resolution}x{self.resolution}")
+        # print("Grow was called inside the discriminator "
+        #      f"Discriminator now inputting images of resolution {self.resolution}x{self.resolution}")
         self.stage += 1
         self.resolution *= 2
         d1 = DiscriminatorBlock(self.stage)
@@ -218,7 +218,7 @@ class Generator(tf.keras.models.Sequential):
     def grow(self):
         self.stage += 1
         self.resolution *= 2
-        print(f"Grow was called inside the Generator: \n"
-              f"Generator now generating images of resolution {self.resolution} x {self.resolution}")
+        # print(f"Grow was called inside the Generator: \n"
+        #       f"Generator now generating images of resolution {self.resolution} x {self.resolution}")
         generator_block = GeneratorBlock(self.stage)
         self.prog_block.append(generator_block)

@@ -2,6 +2,7 @@ import tensorflow as tf
 from helper_functions import stage_of_resolution, num_filters, NCHW_to_NHWC, NHWC_to_NCHW, resolution_of_stage
 from tensorflow.keras.layers import AveragePooling2D
 from tensorflow.keras.layers import UpSampling2D
+from tensorflow.keras.layers import BatchNormalization
 
 
 def standard_conv(filters, kernel_size, padding="same", strides=1, activation=tf.nn.leaky_relu):
@@ -169,9 +170,9 @@ def GeneratorBlock(stage, kernel_size=3, strides=2, padding="same"):
             tf.keras.layers.Conv2DTranspose(filters=filters, kernel_size=kernel_size,
                                             strides=strides, padding=padding,
                                             activation=tf.nn.leaky_relu),
-            PixelNorm(),
+            BatchNormalization(),
             standard_conv(filters=filters, kernel_size=kernel_size),
-            PixelNorm()
+            BatchNormalization()
         ]
     )
     return generator_block
@@ -186,13 +187,13 @@ class Generator(tf.keras.models.Sequential):
         ## Initial block
         self.initial_layers = tf.keras.Sequential(
             [
-                PixelNorm(),
+                BatchNormalization(),
                 tf.keras.layers.Dense(units=self.filters * 4 * 4),
                 tf.keras.layers.Reshape([4, 4, self.filters]),
-                PixelNorm(),
+                BatchNormalization(),
                 standard_conv(filters=self.filters,
                               kernel_size=3),
-                PixelNorm()
+                BatchNormalization()
             ]
         )
         self.prog_block = [tf.keras.layers.InputLayer([latent_dim]), self.initial_layers]
